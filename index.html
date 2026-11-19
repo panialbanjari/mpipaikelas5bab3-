@@ -1,0 +1,2139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>MPI PAI Kelas 5 - Bab 3: Aku Anak Saleh</title>
+  
+  <!-- Memuat Google Fonts: Plus Jakarta Sans & Amiri (untuk teks Arab yang jelas) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Memuat Font Awesome untuk Ikon Ramah Anak & Jelas di FID -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    /* ==========================================================================
+       1. CSS VARIABLES & MANAJEMEN TEMA (Kontras Tinggi & Ramah Anak)
+       ========================================================================== */
+    :root {
+      --primary: #0f766e;         /* Emerald Teal - Islami & Menenangkan */
+      --primary-dark: #115e59;
+      --primary-light: #ccfbf1;
+      --secondary: #d97706;       /* Warm Amber - Ceria & Fokus */
+      --secondary-light: #fef3c7;
+      --accent: #2563eb;          /* Royal Blue - Informatif */
+      --accent-light: #dbeafe;
+      --success: #15803d;
+      --success-bg: #dcfce7;
+      --danger: #b91c1c;
+      --danger-bg: #fee2e2;
+      --bg-app: #f0fdf4;
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border-color: #cbd5e1;
+      --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.06);
+      --shadow-md: 0 8px 20px rgba(15, 23, 42, 0.09);
+      --shadow-lg: 0 14px 32px rgba(15, 23, 42, 0.14);
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --touch-min: 64px;          /* Standar minimal area sentuh FID 60x60px+ */
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ==========================================================================
+       2. RESET & BASE STYLES (Adaptif Mobile, Desktop, dan FID)
+       ========================================================================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-app);
+      background-image: radial-gradient(#99f6e4 1px, transparent 1px);
+      background-size: 28px 28px;
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-size: clamp(16px, 1.15vw + 12px, 21px); /* Skala otomatis besar di FID */
+    }
+
+    .arabic-text {
+      font-family: 'Amiri', serif;
+      direction: rtl;
+      font-size: clamp(1.65rem, 2.5vw, 2.35rem);
+      line-height: 2.1;
+      color: var(--primary-dark);
+      background: #f8fafc;
+      padding: 18px 22px;
+      border-radius: var(--radius-md);
+      border-right: 6px solid var(--primary);
+      margin: 14px 0;
+      text-align: right;
+    }
+
+    /* ==========================================================================
+       3. KOMPONEN INTERAKTIF & TOMBOL (FID-Friendly: Min 64x64px, State :active)
+       ========================================================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      min-height: var(--touch-min);
+      min-width: var(--touch-min);
+      padding: 14px 26px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: var(--radius-md);
+      border: 2px solid transparent;
+      cursor: pointer;
+      user-select: none;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+      text-decoration: none;
+    }
+
+    .btn:active, .btn:focus-visible {
+      transform: scale(0.96);
+      outline: 3px solid var(--secondary);
+      outline-offset: 2px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #ffffff;
+    }
+    .btn-primary:active {
+      background: var(--primary-dark);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #f59e0b, var(--secondary));
+      color: #ffffff;
+    }
+
+    .btn-outline {
+      background: var(--bg-card);
+      color: var(--primary-dark);
+      border-color: var(--primary);
+    }
+    .btn-outline:active {
+      background: var(--primary-light);
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: #ffffff;
+    }
+
+    .btn-sm {
+      min-height: 60px; /* Tetap patuh aturan >= 60px untuk FID */
+      padding: 10px 18px;
+      font-size: 0.92rem;
+    }
+
+    /* ==========================================================================
+       4. HEADER NAVIGASI & GAMIFIKASI BAR
+       ========================================================================== */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid var(--primary-light);
+      padding: 10px 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-badge {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .brand-title h1 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      line-height: 1.2;
+    }
+
+    .brand-title span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .hud-stats {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .stat-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--secondary-light);
+      color: #92400e;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      border: 2px solid #fcd34d;
+    }
+
+    .progress-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #f1f5f9;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 2px solid var(--border-color);
+    }
+
+    .progress-track {
+      width: 110px;
+      height: 12px;
+      background: #cbd5e1;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), #10b981);
+      transition: width 0.4s ease;
+    }
+
+    /* ==========================================================================
+       5. CONTAINER UTAMA & TRANSISI HALAMAN
+       ========================================================================== */
+    .main-container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 24px 18px 90px;
+    }
+
+    .section-view {
+      display: none;
+      animation: fadeSlideUp 0.35s ease forwards;
+    }
+
+    .section-view.active {
+      display: block;
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: clamp(20px, 3vw, 36px);
+      box-shadow: var(--shadow-md);
+      border: 2px solid #e2e8f0;
+      margin-bottom: 24px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 2px dashed var(--border-color);
+    }
+
+    .section-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      flex-shrink: 0;
+    }
+
+    /* ==========================================================================
+       6. HALAMAN COVER
+       ========================================================================== */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .badge-kurikulum {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-size: clamp(1.85rem, 3.6vw, 3rem);
+      font-weight: 800;
+      color: var(--primary-dark);
+      line-height: 1.18;
+      margin-bottom: 14px;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: 22px;
+      font-weight: 600;
+    }
+
+    .meta-box {
+      background: #f8fafc;
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      font-size: 0.9rem;
+    }
+
+    .meta-item strong {
+      display: block;
+      color: var(--primary-dark);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+    }
+
+    .hero-illustration {
+      background: linear-gradient(145deg, #ccfbf1, #fef3c7);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      text-align: center;
+      border: 3px solid #99f6e4;
+    }
+
+    /* ==========================================================================
+       7. PETA KONSEP & MENU UTAMA
+       ========================================================================== */
+    .concept-map-tree {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      margin: 24px 0;
+    }
+
+    .node-root {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 18px 34px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 1.25rem;
+      box-shadow: var(--shadow-md);
+      text-align: center;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      width: 100%;
+    }
+
+    .menu-card {
+      background: var(--bg-card);
+      border: 3px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      text-align: left;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 170px;
+      position: relative;
+    }
+
+    .menu-card:active {
+      transform: scale(0.98);
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .menu-card.completed {
+      border-color: var(--success);
+      background: #f0fdf4;
+    }
+
+    .status-tag {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      background: #e2e8f0;
+      color: var(--text-muted);
+    }
+
+    .menu-card.completed .status-tag {
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    /* ==========================================================================
+       8. MATERI INTI (CHUNKING TABS & INTERAKTIF)
+       ========================================================================== */
+    .chunk-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .chunk-tab {
+      min-height: var(--touch-min);
+      padding: 12px 20px;
+      border-radius: var(--radius-md);
+      border: 2px solid var(--border-color);
+      background: #f8fafc;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      color: var(--text-main);
+      transition: var(--transition);
+      flex: 1 1 auto;
+      text-align: center;
+    }
+
+    .chunk-tab.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary-dark);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .chunk-panel {
+      display: none;
+    }
+
+    .chunk-panel.active {
+      display: block;
+      animation: fadeSlideUp 0.3s ease;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin: 18px 0;
+    }
+
+    .info-box {
+      background: #f8fafc;
+      border-left: 6px solid var(--secondary);
+      padding: 18px;
+      border-radius: 14px;
+    }
+
+    .quick-check-box {
+      background: var(--accent-light);
+      border: 2px solid #93c5fd;
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-top: 22px;
+    }
+
+    /* ==========================================================================
+       9. AKTIVITAS INTERAKTIF & GAME EDUKASI (FID-READY TOUCH & DRAG)
+       ========================================================================== */
+    .game-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    /* Game 1: Drag & Drop / Tap Sortir Akhlak */
+    .drag-pool {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 18px;
+      background: #f1f5f9;
+      border-radius: var(--radius-md);
+      min-height: 95px;
+      margin-bottom: 20px;
+      border: 2px dashed #94a3b8;
+    }
+
+    .drag-item {
+      min-height: var(--touch-min);
+      padding: 12px 18px;
+      background: white;
+      border: 3px solid var(--primary);
+      border-radius: 14px;
+      font-weight: 700;
+      cursor: grab;
+      user-select: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+
+    .drag-item.selected {
+      background: var(--secondary-light);
+      border-color: var(--secondary);
+      transform: scale(1.03);
+    }
+
+    .drop-zones {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .drop-zone {
+      min-height: 210px;
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      border: 3px dashed;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: var(--transition);
+    }
+
+    .drop-zone.karimah {
+      background: #f0fdf4;
+      border-color: var(--success);
+    }
+
+    .drop-zone.mazmumah {
+      background: #fef2f2;
+      border-color: var(--danger);
+    }
+
+    .drop-zone.drag-over {
+      transform: scale(1.01);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Game 2: Matching (Tap Kiri -> Tap Kanan, ramah layar sentuh FID) */
+    .matching-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .match-col {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .match-btn {
+      min-height: 70px;
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      border: 3px solid var(--border-color);
+      background: white;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.95rem;
+    }
+
+    .match-btn.active {
+      border-color: var(--secondary);
+      background: var(--secondary-light);
+    }
+
+    .match-btn.matched {
+      border-color: var(--success);
+      background: var(--success-bg);
+      color: var(--success);
+      pointer-events: none;
+    }
+
+    /* Game 3: Sandi Rahasia N=14 (Halaman 72 Buku Siswa) */
+    .cipher-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      background: #f8fafc;
+      padding: 16px;
+      border-radius: var(--radius-md);
+      border: 2px solid var(--border-color);
+      margin: 16px 0;
+    }
+
+    .cipher-key {
+      padding: 6px 10px;
+      background: white;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .cipher-input {
+      width: 100%;
+      min-height: var(--touch-min);
+      padding: 14px 18px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: 3px solid var(--primary);
+      border-radius: var(--radius-md);
+      margin-bottom: 14px;
+      font-family: inherit;
+    }
+
+    /* ==========================================================================
+       10. KUIS AKHIR (15 SOAL ACAK + TIMER + FEEDBACK EDUKATIF)
+       ========================================================================== */
+    .quiz-topbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      background: #f8fafc;
+      padding: 14px 20px;
+      border-radius: var(--radius-md);
+      border: 2px solid var(--border-color);
+      margin-bottom: 20px;
+    }
+
+    .option-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .option-btn {
+      min-height: 68px;
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: var(--radius-md);
+      border: 3px solid var(--border-color);
+      background: white;
+      text-align: left;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: var(--transition);
+    }
+
+    .option-btn:active {
+      transform: scale(0.99);
+    }
+
+    .option-btn.correct {
+      background: var(--success-bg);
+      border-color: var(--success);
+      color: #14532d;
+      font-weight: 800;
+    }
+
+    .option-btn.wrong {
+      background: var(--danger-bg);
+      border-color: var(--danger);
+      color: #7f1d1d;
+    }
+
+    .option-letter {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .feedback-banner {
+      margin-top: 18px;
+      padding: 18px 20px;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      display: none;
+    }
+
+    .feedback-banner.show {
+      display: block;
+      animation: fadeSlideUp 0.25s ease;
+    }
+
+    .feedback-banner.success {
+      background: var(--success-bg);
+      border: 2px solid var(--success);
+      color: #14532d;
+    }
+
+    .feedback-banner.error {
+      background: var(--danger-bg);
+      border: 2px solid var(--danger);
+      color: #7f1d1d;
+    }
+
+    /* ==========================================================================
+       11. REFLEKSI DIRI & HALAMAN HASIL
+       ========================================================================== */
+    .reflection-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+    }
+
+    .reflection-table th, .reflection-table td {
+      border: 2px solid var(--border-color);
+      padding: 12px;
+      text-align: center;
+    }
+
+    .reflection-table td:first-child {
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .radio-touch {
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      accent-color: var(--primary);
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.96);
+      border-top: 2px solid var(--border-color);
+      padding: 10px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 90;
+      gap: 10px;
+    }
+
+    /* ==========================================================================
+       12. MEDIA QUERIES (RESPONSIVITAS MOBILE & TABLET)
+       ========================================================================== */
+    @media (max-width: 860px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+      .meta-box {
+        grid-template-columns: 1fr;
+      }
+      .drop-zones, .matching-grid, .game-tabs {
+        grid-template-columns: 1fr;
+      }
+      .brand-title span {
+        display: none;
+      }
+      .progress-track {
+        width: 70px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER & HUD GAMIFIKASI -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand-info">
+        <div class="brand-badge"><i class="fa-solid fa-mosque"></i></div>
+        <div class="brand-title">
+          <h1>PAI Kelas 5 • Bab 3: Aku Anak Saleh</h1>
+          <span>Penyusun: M. Ripani, S.Pd | Kurikulum Merdeka (Fase C)</span>
+        </div>
+      </div>
+
+      <div class="hud-stats">
+        <div class="stat-pill" title="Poin Keaktifan Belajar">
+          <i class="fa-solid fa-star"></i>
+          <span id="hudPoints">0 Poin</span>
+        </div>
+        <div class="progress-wrapper" title="Progres Pembelajaran">
+          <div class="progress-track">
+            <div class="progress-fill" id="hudProgressFill"></div>
+          </div>
+          <span id="hudProgressText" style="font-weight:800; font-size:0.85rem;">0%</span>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="navigateTo('menu')" aria-label="Ke Menu Utama">
+          <i class="fa-solid fa-sitemap"></i> <span>Menu</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+
+    <!-- ========================================================================
+         1. HALAMAN COVER
+         ======================================================================== -->
+    <section id="view-cover" class="section-view active">
+      <div class="card">
+        <div class="hero-grid">
+          <div>
+            <div class="badge-kurikulum">
+              <i class="fa-solid fa-sparkles"></i> Media Pembelajaran Interaktif • Fase C
+            </div>
+            <h2 class="hero-title">Bab 3: Aku Anak Saleh</h2>
+            <p class="hero-subtitle">
+              A. Indahnya Saling Menghargai &nbsp;|&nbsp; B. Manusia sebagai Khalifah
+            </p>
+
+            <div class="meta-box">
+              <div class="meta-item">
+                <strong>Mata Pelajaran</strong>
+                Pendidikan Agama Islam & Budi Pekerti
+              </div>
+              <div class="meta-item">
+                <strong>Jenjang / Kelas</strong>
+                SD / Kelas 5 (Fase C)
+              </div>
+              <div class="meta-item">
+                <strong>Alokasi Waktu</strong>
+                4 x 35 Menit
+              </div>
+              <div class="meta-item">
+                <strong>Penyusun Media</strong>
+                M. Ripani, S.Pd
+              </div>
+            </div>
+
+            <div style="display:flex; flex-wrap:wrap; gap:14px;">
+              <button class="btn btn-primary" style="font-size:1.15rem; padding:18px 34px;" onclick="startLearning()">
+                <i class="fa-solid fa-play"></i> MULAI BELAJAR
+              </button>
+              <button class="btn btn-outline" onclick="toggleTujuan()">
+                <i class="fa-solid fa-bullseye"></i> Tujuan Pembelajaran
+              </button>
+            </div>
+
+            <div id="tujuanBox" style="display:none; margin-top:20px; background:#f0fdf4; padding:18px; border-radius:16px; border:2px solid #86efac;">
+              <h3 style="color:var(--primary-dark); margin-bottom:10px;"><i class="fa-solid fa-list-check"></i> Tujuan Pembelajaran:</h3>
+              <ol style="padding-left:22px; font-size:0.95rem; display:grid; gap:6px;">
+                <li>Meyakini makna hidup indah saling menghargai dan tugas utama sebagai khalifah dengan benar.</li>
+                <li>Membiasakan perilaku terpuji sebagai wujud implementasi makna saling menghargai dan tugas khalifah.</li>
+                <li>Menjelaskan makna hidup indah saling menghargai dan tugas utama sebagai khalifah.</li>
+                <li>Menyebutkan makna saling menghargai dan tugas utama manusia sebagai khalifah.</li>
+                <li>Menampilkan contoh perilaku saling menghargai dan tugas utama sebagai khalifah.</li>
+                <li>Menemukan perilaku manusia sebagai khalifah dalam kehidupan sehari-hari di lingkungan terdekat.</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="hero-illustration">
+            <!-- Ilustrasi SVG Ramah Anak: Kerukunan & Amanah Bumi -->
+            <svg viewBox="0 0 360 280" width="100%" style="max-width:340px; height:auto;">
+              <circle cx="180" cy="140" r="115" fill="#ffffff" opacity="0.85"/>
+              <!-- Bumi Hijau -->
+              <circle cx="180" cy="175" r="72" fill="#10b981"/>
+              <path d="M135 155 Q160 135 185 155 T225 165 Q210 210 165 215 Z" fill="#047857"/>
+              <!-- Kubah Masjid -->
+              <path d="M145 108 Q180 55 215 108 Z" fill="#0f766e"/>
+              <rect x="152" y="108" width="56" height="26" rx="4" fill="#f59e0b"/>
+              <circle cx="180" cy="52" r="7" fill="#d97706"/>
+              <!-- Anak-anak Nusantara Bergandengan -->
+              <circle cx="95" cy="145" r="18" fill="#fde68a"/>
+              <path d="M72 195 Q95 165 118 195 Z" fill="#2563eb"/>
+              <circle cx="265" cy="145" r="18" fill="#fed7aa"/>
+              <path d="M242 195 Q265 165 288 195 Z" fill="#dc2626"/>
+              <!-- Bintang & Hati -->
+              <text x="55" y="75" font-size="26">✨</text>
+              <text x="275" y="80" font-size="26">🌿</text>
+              <text x="165" y="265" font-size="16" font-weight="bold" fill="#0f766e">Anak Saleh &amp; Rukun</text>
+            </svg>
+            <p style="font-weight:700; color:var(--primary-dark); margin-top:8px;">
+              "Berbuat baiklah kepada orang lain sebagaimana Allah telah berbuat baik kepadamu." (QS. Al-Qasas: 77)
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         2. MENU UTAMA & PETA KONSEP
+         ======================================================================== -->
+    <section id="view-menu" class="section-view">
+      <div class="card">
+        <div class="section-header">
+          <div class="section-icon"><i class="fa-solid fa-diagram-project"></i></div>
+          <div>
+            <h2>Peta Konsep & Alur Belajar</h2>
+            <p style="color:var(--text-muted); font-size:0.95rem;">Sentuh salah satu kartu tahapan di bawah ini untuk mulai berpetualang ilmu!</p>
+          </div>
+        </div>
+
+        <div class="concept-map-tree">
+          <div class="node-root">
+            <i class="fa-solid fa-child-reaching"></i> AKU ANAK SALEH (BAB 3)
+          </div>
+
+          <div class="menu-grid">
+            <div class="menu-card" id="card-apersepsi" onclick="navigateTo('apersepsi')">
+              <span class="status-tag" id="tag-apersepsi">Tahap 1</span>
+              <div>
+                <h3 style="color:var(--primary-dark); margin-bottom:8px;"><i class="fa-solid fa-book-quran"></i> Apersepsi & Tadarus</h3>
+                <p style="font-size:0.9rem; color:var(--text-muted);">Membaca Basmalah, mengamati gambar hidup rukun, dan menjawab pertanyaan pemantik.</p>
+              </div>
+              <div style="margin-top:14px; font-weight:800; color:var(--primary);">Buka Tahap 1 →</div>
+            </div>
+
+            <div class="menu-card" id="card-materiA" onclick="navigateTo('materiA')">
+              <span class="status-tag" id="tag-materiA">Tahap 2</span>
+              <div>
+                <h3 style="color:var(--primary-dark); margin-bottom:8px;"><i class="fa-solid fa-hands-holding-child"></i> A. Indahnya Saling Menghargai</h3>
+                <p style="font-size:0.9rem; color:var(--text-muted);">Menghargai perbedaan suku & budaya, keyakinan, serta pendapat dalam musyawarah.</p>
+              </div>
+              <div style="margin-top:14px; font-weight:800; color:var(--primary);">Buka Materi A →</div>
+            </div>
+
+            <div class="menu-card" id="card-materiB" onclick="navigateTo('materiB')">
+              <span class="status-tag" id="tag-materiB">Tahap 3</span>
+              <div>
+                <h3 style="color:var(--primary-dark); margin-bottom:8px;"><i class="fa-solid fa-earth-asia"></i> B. Manusia sebagai Khalifah</h3>
+                <p style="font-size:0.9rem; color:var(--text-muted);">Makna khalifah di bumi (QS. Al-Baqarah: 30), 4 tugas utama khalifah, & kisah teladan.</p>
+              </div>
+              <div style="margin-top:14px; font-weight:800; color:var(--primary);">Buka Materi B →</div>
+            </div>
+
+            <div class="menu-card" id="card-aktivitas" onclick="navigateTo('aktivitas')">
+              <span class="status-tag" id="tag-aktivitas">Tahap 4</span>
+              <div>
+                <h3 style="color:var(--secondary); margin-bottom:8px;"><i class="fa-solid fa-gamepad"></i> Aktivitas & Game Edukasi</h3>
+                <p style="font-size:0.9rem; color:var(--text-muted);">3 Misi Seru: Sortir Akhlak, Pasangkan Dalil & Makna, dan Pecahkan Sandi N=14!</p>
+              </div>
+              <div style="margin-top:14px; font-weight:800; color:var(--secondary);">Mainkan Game →</div>
+            </div>
+
+            <div class="menu-card" id="card-kuis" onclick="navigateTo('kuis')">
+              <span class="status-tag" id="tag-kuis">Tahap 5</span>
+              <div>
+                <h3 style="color:var(--accent); margin-bottom:8px;"><i class="fa-solid fa-trophy"></i> Kuis Akhir (15 Soal Acak)</h3>
+                <p style="font-size:0.9rem; color:var(--text-muted);">Uji pemahamanmu dengan 15 soal pilihan ganda teracak dilengkapi timer dan pembahasan.</p>
+              </div>
+              <div style="margin-top:14px; font-weight:800; color:var(--accent);">Mulai Kuis →</div>
+            </div>
+
+            <div class="menu-card" id="card-hasil" onclick="navigateTo('hasil')">
+              <span class="status-tag" id="tag-hasil">Tahap 6</span>
+              <div>
+                <h3 style="color:var(--success); margin-bottom:8px;"><i class="fa-solid fa-award"></i> Hasil, Lencana & Refleksi</h3>
+                <p style="font-size:0.9rem; color:var(--text-muted);">Lihat capaian nilai, lencana Anak Saleh, dan isi lembar refleksi sikap sehari-hari.</p>
+              </div>
+              <div style="margin-top:14px; font-weight:800; color:var(--success);">Lihat Rapor →</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         3. APERSEPSI & PERTANYAAN PEMANTIK (MINDFUL LEARNING)
+         ======================================================================== -->
+    <section id="view-apersepsi" class="section-view">
+      <div class="card">
+        <div class="section-header">
+          <div class="section-icon"><i class="fa-solid fa-book-open-reader"></i></div>
+          <div>
+            <h2>Ayo Tadarus & Mengamati (Mindful)</h2>
+            <p style="color:var(--text-muted);">Sebelum belajar, mari hadirkan hati dan niat karena Allah Swt.</p>
+          </div>
+        </div>
+
+        <div class="arabic-text" style="text-align:center;">
+          بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ
+        </div>
+        <p style="text-align:center; font-weight:700; color:var(--primary-dark); margin-bottom:20px;">
+          "Dengan nama Allah Yang Maha Pengasih, Maha Penyayang."
+        </p>
+
+        <div style="background:#f8fafc; border-radius:20px; padding:22px; border:2px solid var(--border-color); margin-bottom:20px;">
+          <h3 style="color:var(--primary-dark); margin-bottom:10px;"><i class="fa-solid fa-eye"></i> Ayo Mengamati Situasi!</h3>
+          <p>
+            Bayangkan di kelasmu ada teman yang berasal dari suku Jawa, Banjar, Dayak, Bugis, dan Papua. Ada pula teman yang berbeda agama atau berbeda pendapat saat berdiskusi kelompok. Namun, semuanya bermain dan belajar bersama dengan senyum ceria!
+          </p>
+        </div>
+
+        <!-- Pertanyaan Pemantik Interaktif (Assessment as Learning) -->
+        <div class="quick-check-box">
+          <h3 style="color:#1e3a8a; margin-bottom:12px;"><i class="fa-solid fa-lightbulb"></i> Pertanyaan Pemantik (Pilih Jawabanmu!):</h3>
+          <p style="font-weight:700; margin-bottom:14px;">1. Apa yang kamu rasakan saat hidup rukun dan saling menghargai dengan teman di sekolah?</p>
+          <div style="display:flex; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+            <button class="btn btn-outline" onclick="jawabPemantik(1, 'Hati terasa tenang, damai, dan punya banyak teman!')">
+              😊 Tenang, damai, dan senang
+            </button>
+            <button class="btn btn-outline" onclick="jawabPemantik(1, 'Belajar bersama menjadi lebih kompak dan menyenangkan!')">
+              🤝 Kompak dan semangat belajar
+            </button>
+          </div>
+
+          <p style="font-weight:700; margin-bottom:14px;">2. Apa yang harus kita lakukan jika ada teman yang berbeda pendapat saat diskusi?</p>
+          <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <button class="btn btn-outline" onclick="jawabPemantik(2, 'Mendengarkan dengan baik sampai selesai dan bermusyawarah.')">
+              👂 Mendengarkan &amp; musyawarah
+            </button>
+            <button class="btn btn-outline" onclick="jawabPemantik(2, 'Tidak mengejek pendapatnya dan menghormati keputusan bersama.')">
+              ❤️ Tidak mengejek &amp; menghormati
+            </button>
+          </div>
+
+          <div id="pemantikFeedback" class="feedback-banner success" style="margin-top:16px;"></div>
+        </div>
+
+        <div style="margin-top:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+          <button class="btn btn-outline" onclick="navigateTo('menu')"><i class="fa-solid fa-arrow-left"></i> Peta Konsep</button>
+          <button class="btn btn-primary" onclick="completeStage('apersepsi', 'materiA')">Lanjut ke Materi A <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         4A. MATERI INTI BAGIAN A: INDAHNYA SALING MENGHARGAI
+         ======================================================================== -->
+    <section id="view-materiA" class="section-view">
+      <div class="card">
+        <div class="section-header">
+          <div class="section-icon"><i class="fa-solid fa-hands-holding-circle"></i></div>
+          <div>
+            <h2>A. Indahnya Saling Menghargai</h2>
+            <p style="color:var(--text-muted);">Pilih setiap tab di bawah ini untuk mempelajari 4 pilar saling menghargai.</p>
+          </div>
+        </div>
+
+        <div class="chunk-tabs">
+          <button class="chunk-tab active" onclick="switchChunk('A', 0, this)">1. Makna Menghargai</button>
+          <button class="chunk-tab" onclick="switchChunk('A', 1, this)">2. Suku &amp; Budaya</button>
+          <button class="chunk-tab" onclick="switchChunk('A', 2, this)">3. Keyakinan</button>
+          <button class="chunk-tab" onclick="switchChunk('A', 3, this)">4. Pendapat &amp; Toleransi</button>
+        </div>
+
+        <!-- Sub-materi A1 -->
+        <div class="chunk-panel active" id="chunk-A-0">
+          <h3>Apa Arti Saling Menghargai?</h3>
+          <p style="margin-top:10px;">
+            <strong>Menghargai</strong> artinya menghormati, menerima, mengakui, dan selalu menganggap bahwa orang lain penting bagi kita. Sebagai anak muslim, kita wajib menghiasi diri dengan <strong>Akhlakul Karimah</strong> (akhlak mulia) dan menjauhi <strong>Akhlakul Mazmumah</strong> (perbuatan tercela) seperti merasa paling pintar, paling kaya, atau paling benar.
+          </p>
+          <div class="arabic-text">
+            وَاَحْسِنْ كَمَآ اَحْسَنَ اللّٰهُ اِلَيْكَ وَلَا تَبْغِ الْفَسَادَ فِى الْاَرْضِ ۗ
+          </div>
+          <p style="font-style:italic; color:var(--text-muted);">
+            "Berbuat baiklah (kepada orang lain) sebagaimana Allah telah berbuat baik kepadamu, dan janganlah kamu berbuat kerusakan di bumi." <strong>(QS. Al-Qasas/28: 77)</strong>
+          </p>
+        </div>
+
+        <!-- Sub-materi A2 -->
+        <div class="chunk-panel" id="chunk-A-1">
+          <h3>1. Menghargai Perbedaan Suku dan Budaya</h3>
+          <p style="margin-top:10px;">
+            Indonesia terdiri dari ribuan pulau, suku, bahasa, dan budaya. Keragaman ini adalah <em>fitrah</em> (ketetapan) dari Allah Swt. agar manusia saling mengenal, bukan saling mengejek.
+          </p>
+          <div class="arabic-text">
+            يٰٓاَيُّهَا النَّاسُ اِنَّا خَلَقْنٰكُمْ مِّنْ ذَكَرٍ وَّاُنْثٰى وَجَعَلْنٰكُمْ شُعُوْبًا وَّقَبَاۤىِٕلَ لِتَعَارَفُوْا ۚ اِنَّ اَكْرَمَكُمْ عِنْدَ اللّٰهِ اَتْقٰىكُمْ ۗ
+          </div>
+          <p style="font-style:italic; color:var(--text-muted);">
+            "Hai manusia, sesungguhnya Kami menciptakan kamu dari seorang laki-laki dan seorang perempuan dan menjadikan kamu berbangsa-bangsa dan bersuku-suku supaya kamu saling mengenal. Sesungguhnya orang yang paling mulia di antara kamu di sisi Allah ialah orang yang paling takwa..." <strong>(QS. Al-Hujurat/49: 13)</strong>
+          </p>
+        </div>
+
+        <!-- Sub-materi A3 -->
+        <div class="chunk-panel" id="chunk-A-2">
+          <h3>2. Menghargai Keyakinan Orang Lain</h3>
+          <p style="margin-top:10px;">
+            Bangsa kita memiliki semboyan <strong>Bhinneka Tunggal Ika</strong> (berbeda-beda tetapi tetap satu jua). Dalam Islam, kita dilarang menghina atau mencela keyakinan/sesembahan agama lain, namun tetap teguh menjalankan ibadah sesuai syariat Islam.
+          </p>
+          <div class="arabic-text">
+            وَلَا تَسُبُّوا الَّذِيْنَ يَدْعُوْنَ مِنْ دُوْنِ اللّٰهِ فَيَسُبُّوا اللّٰهَ عَدْوًاۢ بِغَيْرِ عِلْمٍ ۗ
+          </div>
+          <p style="font-style:italic; color:var(--text-muted);">
+            "Dan janganlah kamu memaki sesembahan yang mereka sembah selain Allah, karena mereka nanti akan memaki Allah dengan melampaui batas tanpa dasar pengetahuan." <strong>(QS. Al-An'am/6: 108)</strong>
+          </p>
+        </div>
+
+        <!-- Sub-materi A4 -->
+        <div class="chunk-panel" id="chunk-A-3">
+          <h3>3. Menghargai Pendapat &amp; Menerima Perbedaan</h3>
+          <p style="margin-top:10px;">
+            Saat diskusi kelas atau keluarga, perbedaan pendapat itu biasa. Masalah diselesaikan dengan jalan <strong>musyawarah</strong> sesuai firman Allah dalam <strong>QS. Asy-Syura/42: 38</strong> (<em>wa amruhum syura bainahum</em>).
+          </p>
+          <div class="info-grid">
+            <div class="info-box">
+              <strong><i class="fa-solid fa-ear-listen"></i> Adab Bermusyawarah:</strong>
+              <ul style="padding-left:20px; margin-top:6px; font-size:0.92rem;">
+                <li>Diam dan dengarkan saat teman berbicara.</li>
+                <li>Tidak memaksakan kehendak sendiri.</li>
+                <li>Menjunjung tinggi hasil keputusan bersama.</li>
+              </ul>
+            </div>
+            <div class="info-box" style="border-left-color:var(--primary);">
+              <strong><i class="fa-solid fa-heart"></i> Bukti Menerima Perbedaan:</strong>
+              <ul style="padding-left:20px; margin-top:6px; font-size:0.92rem;">
+                <li>Bersikap toleransi terhadap perbedaan.</li>
+                <li>Menjaga budaya gotong royong &amp; tolong-menolong tanpa pilih kasih.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mini Cek Pemahaman A -->
+        <div class="quick-check-box">
+          <h4 style="color:#1e3a8a; margin-bottom:10px;"><i class="fa-solid fa-circle-question"></i> Cek Paham Cepat (Materi A):</h4>
+          <p style="font-weight:700; margin-bottom:12px;">Menurut QS. Al-Hujurat ayat 13, tujuan Allah menciptakan manusia bersuku-suku dan berbangsa-bangsa adalah untuk...</p>
+          <div style="display:flex; flex-wrap:wrap; gap:10px;">
+            <button class="btn btn-outline btn-sm" onclick="cekCepat('A', false, 'Kurang tepat. Justru keragaman bukan untuk bersaing siapa paling hebat.')">Bersaing menjadi yang terhebat</button>
+            <button class="btn btn-outline btn-sm" onclick="cekCepat('A', true, 'Benar sekali! Lita\'arafu artinya agar saling mengenal dan menyayangi.')">Saling mengenal (Lita'arafu)</button>
+          </div>
+          <div id="cekFeedbackA" class="feedback-banner"></div>
+        </div>
+
+        <div style="margin-top:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+          <button class="btn btn-outline" onclick="navigateTo('apersepsi')"><i class="fa-solid fa-arrow-left"></i> Sebelumnya</button>
+          <button class="btn btn-primary" onclick="completeStage('materiA', 'materiB')">Lanjut ke Materi B <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         4B. MATERI INTI BAGIAN B: MANUSIA SEBAGAI KHALIFAH
+         ======================================================================== -->
+    <section id="view-materiB" class="section-view">
+      <div class="card">
+        <div class="section-header">
+          <div class="section-icon"><i class="fa-solid fa-globe"></i></div>
+          <div>
+            <h2>B. Manusia sebagai Khalifah di Bumi</h2>
+            <p style="color:var(--text-muted);">Memahami amanah besar manusia sebagai pemimpin dan pemakmur bumi.</p>
+          </div>
+        </div>
+
+        <div class="chunk-tabs">
+          <button class="chunk-tab active" onclick="switchChunk('B', 0, this)">1. Pengertian Khalifah</button>
+          <button class="chunk-tab" onclick="switchChunk('B', 1, this)">2. Empat Tugas Khalifah</button>
+          <button class="chunk-tab" onclick="switchChunk('B', 2, this)">3. Kisah Penyejuk Hati</button>
+        </div>
+
+        <!-- Sub-materi B1 -->
+        <div class="chunk-panel active" id="chunk-B-0">
+          <h3>Siapakah Khalifah Itu?</h3>
+          <p style="margin-top:10px;">
+            <strong>Khalifah</strong> adalah pemimpin yang diberi amanah oleh Allah Swt. untuk mengurus bumi, melaksanakan perintah-Nya, serta memakmurkan dan menjaga kelestarian alam semesta. Nabi Adam a.s. adalah khalifah pertama di bumi sebagaimana firman Allah dalam <strong>QS. Al-Baqarah/2: 30</strong>:
+          </p>
+          <div class="arabic-text">
+            وَاِذْ قَالَ رَبُّكَ لِلْمَلٰۤىِٕكَةِ اِنِّيْ جَاعِلٌ فِى الْاَرْضِ خَلِيْفَةً ۗ
+          </div>
+          <p style="font-style:italic; color:var(--text-muted);">
+            "Dan (ingatlah) ketika Tuhanmu berfirman kepada para malaikat, 'Aku hendak menjadikan khalifah di bumi...'" <strong>(QS. Al-Baqarah/2: 30)</strong>
+          </p>
+          <p style="margin-top:10px;">
+            Setiap dari kita adalah pemimpin (khalifah), minimal pemimpin bagi diri sendiri, ketua kelas, atau ketua kelompok yang kelak dimintai pertanggungjawaban oleh Allah Swt.
+          </p>
+        </div>
+
+        <!-- Sub-materi B2 -->
+        <div class="chunk-panel" id="chunk-B-1">
+          <h3>4 Tugas Utama Manusia sebagai Khalifah</h3>
+          <div class="info-grid">
+            <div class="info-box" style="border-left-color:#0f766e;">
+              <h4>1. Terus Belajar Sepanjang Hayat</h4>
+              <p style="font-size:0.92rem; margin-top:6px;">Memperluas ilmu pengetahuan untuk meraih kebahagiaan dunia dan akhirat.</p>
+            </div>
+            <div class="info-box" style="border-left-color:#2563eb;">
+              <h4>2. Menjaga Akal &amp; Hati Nurani</h4>
+              <p style="font-size:0.92rem; margin-top:6px;">Mensyukuri nikmat akal, kesehatan, dan harta untuk mengabdi kepada Allah Swt.</p>
+            </div>
+            <div class="info-box" style="border-left-color:#d97706;">
+              <h4>3. Mewujudkan Masyarakat Adil &amp; Rukun</h4>
+              <p style="font-size:0.92rem; margin-top:6px;">Tidak egois, gemar menolong, serta menjaga persatuan dalam kebinekaan.</p>
+            </div>
+            <div class="info-box" style="border-left-color:#15803d;">
+              <h4>4. Menjaga Alam Agar Tetap Lestari</h4>
+              <p style="font-size:0.92rem; margin-top:6px;">Tidak merusak lingkungan, merawat flora dan fauna, serta memanfaatkannya dengan bijak.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sub-materi B3 -->
+        <div class="chunk-panel" id="chunk-B-2">
+          <h3>Kisah Penyejuk Hati: Musyawarah Rasulullah Saw.</h3>
+          <div style="background:#fffbeb; border:2px solid #fcd34d; padding:20px; border-radius:16px; margin-top:10px;">
+            <p>
+              Dalam sebuah musyawarah mengenai tawanan perang, <strong>Rasulullah Saw.</strong> meminta pendapat para sahabat. <strong>Abu Bakar r.a.</strong> mengusulkan agar tawanan dibebaskan dengan membayar tebusan (<em>fidyah</em>). Sementara <strong>Umar bin Khattab r.a.</strong> dan <strong>Ali bin Abi Thalib r.a.</strong> berpendapat agar diberi hukuman berat.
+            </p>
+            <p style="margin-top:10px;">
+              Setelah mempertimbangkan, Rasulullah Saw. menyetujui pendapat Abu Bakar r.a. Meskipun pendapat Umar dan Ali tidak dipilih, <strong>mereka tetap lapang dada dan menghargai keputusan musyawarah</strong>. Akhlak mulia para sahabat inilah yang membuat mereka dicintai Allah dan Rasul-Nya.
+            </p>
+          </div>
+        </div>
+
+        <!-- Mini Cek Pemahaman B -->
+        <div class="quick-check-box">
+          <h4 style="color:#1e3a8a; margin-bottom:10px;"><i class="fa-solid fa-circle-question"></i> Cek Paham Cepat (Materi B):</h4>
+          <p style="font-weight:700; margin-bottom:12px;">Manakah perilaku di sekolah yang mencerminkan tugas manusia sebagai khalifah?</p>
+          <div style="display:flex; flex-wrap:wrap; gap:10px;">
+            <button class="btn btn-outline btn-sm" onclick="cekCepat('B', true, 'Hebat! Menjaga kebersihan taman sekolah dan giat belajar adalah wujud tugas khalifah.')">Merawat tanaman sekolah &amp; rajin belajar</button>
+            <button class="btn btn-outline btn-sm" onclick="cekCepat('B', false, 'Coba ingat kembali 4 tugas khalifah: menjaga alam dan terus belajar.')">Membuang sampah di laci meja kelas</button>
+          </div>
+          <div id="cekFeedbackB" class="feedback-banner"></div>
+        </div>
+
+        <div style="margin-top:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+          <button class="btn btn-outline" onclick="navigateTo('materiA')"><i class="fa-solid fa-arrow-left"></i> Materi A</button>
+          <button class="btn btn-secondary" onclick="completeStage('materiB', 'aktivitas')">Main Game Edukasi <i class="fa-solid fa-gamepad"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         5. AKTIVITAS INTERAKTIF & GAME EDUKASI (3 MISI SERU)
+         ======================================================================== -->
+    <section id="view-aktivitas" class="section-view">
+      <div class="card">
+        <div class="section-header">
+          <div class="section-icon" style="background:var(--secondary-light); color:var(--secondary);"><i class="fa-solid fa-puzzle-piece"></i></div>
+          <div>
+            <h2>Arena Game Edukasi Anak Saleh</h2>
+            <p style="color:var(--text-muted);">Selesaikan 3 misi interaktif di bawah ini untuk mengumpulkan poin bonus!</p>
+          </div>
+        </div>
+
+        <div class="game-tabs">
+          <button class="btn btn-primary" id="btnGame1" onclick="switchGame(1)">Misi 1: Sortir Akhlak</button>
+          <button class="btn btn-outline" id="btnGame2" onclick="switchGame(2)">Misi 2: Cocokkan Dalil</button>
+          <button class="btn btn-outline" id="btnGame3" onclick="switchGame(3)">Misi 3: Sandi N=14</button>
+        </div>
+
+        <!-- GAME 1: DRAG & DROP / TAP SORTIR AKHLAK -->
+        <div id="game-panel-1">
+          <p style="font-weight:700; margin-bottom:10px;">
+            <i class="fa-solid fa-hand-pointer"></i> Cara Bermain (Mendukung Sentuh FID &amp; Drag): <strong>Tarik (Drag)</strong> kartu perilaku ke kotak yang tepat, ATAU <strong>Sentuh kartu</strong> lalu <strong>sentuh kotak tujuan</strong>!
+          </p>
+
+          <div class="drag-pool" id="dragPool"></div>
+
+          <div class="drop-zones">
+            <div class="drop-zone karimah" id="zone-karimah" ondragover="allowDrop(event)" ondrop="dropCard(event, 'karimah')" onclick="tapZone('karimah')">
+              <h3 style="color:var(--success); text-align:center;"><i class="fa-solid fa-face-smile-beam"></i> Akhlakul Karimah (Terpuji)</h3>
+              <p style="font-size:0.85rem; text-align:center; color:var(--text-muted);">Sentuh/letakkan sikap saling menghargai &amp; khalifah di sini</p>
+            </div>
+
+            <div class="drop-zone mazmumah" id="zone-mazmumah" ondragover="allowDrop(event)" ondrop="dropCard(event, 'mazmumah')" onclick="tapZone('mazmumah')">
+              <h3 style="color:var(--danger); text-align:center;"><i class="fa-solid fa-face-frown"></i> Akhlakul Mazmumah (Tercela)</h3>
+              <p style="font-size:0.85rem; text-align:center; color:var(--text-muted);">Sentuh/letakkan sikap yang harus dijauhi di sini</p>
+            </div>
+          </div>
+
+          <div id="game1Feedback" class="feedback-banner"></div>
+          <div style="margin-top:14px;">
+            <button class="btn btn-outline btn-sm" onclick="initGame1()"><i class="fa-solid fa-rotate-right"></i> Acak Ulang Kartu</button>
+          </div>
+        </div>
+
+        <!-- GAME 2: MATCHING PASANGAN DALIL & KONSEP -->
+        <div id="game-panel-2" style="display:none;">
+          <p style="font-weight:700; margin-bottom:14px;">
+            <i class="fa-solid fa-link"></i> Sentuh satu kartu di <strong>Kolom Kiri</strong>, lalu sentuh pasangannya yang tepat di <strong>Kolom Kanan</strong>!
+          </p>
+          <div class="matching-grid">
+            <div class="match-col" id="matchLeftCol"></div>
+            <div class="match-col" id="matchRightCol"></div>
+          </div>
+          <div id="game2Feedback" class="feedback-banner"></div>
+          <div style="margin-top:14px;">
+            <button class="btn btn-outline btn-sm" onclick="initGame2()"><i class="fa-solid fa-rotate-right"></i> Ulangi Misi 2</button>
+          </div>
+        </div>
+
+        <!-- GAME 3: AYO BERKREASI - SANDI RAHASIA N=14 (BUKU SISWA HAL. 72) -->
+        <div id="game-panel-3" style="display:none;">
+          <div style="background:#fffbeb; border:2px solid #fcd34d; padding:18px; border-radius:16px; margin-bottom:16px;">
+            <h3 style="color:#92400e;"><i class="fa-solid fa-key"></i> Misi Sandi Rahasia (Buku Paket PAI Hal. 72)</h3>
+            <p style="font-size:0.95rem; margin-top:6px;">
+              Petunjuk Kunci: Setiap angka mewakili urutan huruf abjad (<strong>A=1, B=2, C=3, ... N=14, ... Z=26</strong>). Pecahkan pesan moral dari susunan angka berikut!
+            </p>
+            <div class="cipher-grid" id="cipherLegend"></div>
+          </div>
+
+          <div style="background:#f8fafc; padding:18px; border-radius:16px; border:2px solid var(--border-color); margin-bottom:16px;">
+            <p style="font-weight:800; color:var(--primary-dark); font-size:1.1rem; letter-spacing:0.5px;">
+              Kode 1: <span style="color:var(--accent);">8-9-4-21-16 &nbsp; 9-14-4-1-8 &nbsp; 4-5-14-7-1-14 &nbsp; 19-1-12-9-14-7 &nbsp; 13-5-14-7-8-1-18-7-1-9</span>
+            </p>
+            <p style="font-size:0.9rem; color:var(--text-muted); margin-top:6px;">
+              Petunjuk: Terdiri dari 5 kata (Kata pertama: <strong>HIDUP</strong> ...)
+            </p>
+          </div>
+
+          <input type="text" id="cipherAnswerInput" class="cipher-input" placeholder="Ketik terjemahan kalimat Kode 1 di sini..." />
+          <div style="display:flex; flex-wrap:wrap; gap:12px;">
+            <button class="btn btn-primary" onclick="checkCipher()"><i class="fa-solid fa-check-double"></i> Periksa Sandi</button>
+            <button class="btn btn-outline" onclick="hintCipher()"><i class="fa-solid fa-lightbulb"></i> Bantuan Huruf</button>
+          </div>
+          <div id="game3Feedback" class="feedback-banner"></div>
+        </div>
+
+        <div style="margin-top:28px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+          <button class="btn btn-outline" onclick="navigateTo('materiB')"><i class="fa-solid fa-arrow-left"></i> Materi B</button>
+          <button class="btn btn-primary" onclick="completeStage('aktivitas', 'kuis')">Lanjut ke Kuis 15 Soal <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         6. KUIS AKHIR (15 SOAL ACAK - ASSESSMENT OF LEARNING)
+         ======================================================================== -->
+    <section id="view-kuis" class="section-view">
+      <div class="card">
+        <div class="section-header">
+          <div class="section-icon" style="background:var(--accent-light); color:var(--accent);"><i class="fa-solid fa-clipboard-question"></i></div>
+          <div>
+            <h2>Kuis Evaluasi Akhir (15 Soal Acak)</h2>
+            <p style="color:var(--text-muted);">Pilih jawaban yang paling tepat! Soal dan opsi otomatis diacak setiap kali kuis dimulai.</p>
+          </div>
+        </div>
+
+        <div id="quizStartScreen" style="text-align:center; padding:24px 10px;">
+          <div style="font-size:3.5rem; color:var(--primary); margin-bottom:12px;"><i class="fa-solid fa-award"></i></div>
+          <h3>Siap Menguji Pemahamanmu?</h3>
+          <p style="max-width:600px; margin:10px auto 22px; color:var(--text-muted);">
+            Terdapat <strong>15 soal pilihan ganda</strong> tentang Indahnya Saling Menghargai dan Manusia sebagai Khalifah. Setiap jawaban benar bernilai poin dan dilengkapi pembahasan edukatif!
+          </p>
+          <button class="btn btn-primary" style="font-size:1.1rem; padding:16px 32px;" onclick="startQuiz()">
+            <i class="fa-solid fa-play"></i> MULAI KUIS SEKARANG
+          </button>
+        </div>
+
+        <div id="quizPlayScreen" style="display:none;">
+          <div class="quiz-topbar">
+            <div style="font-weight:800; color:var(--primary-dark);">
+              Soal <span id="qNumber">1</span> dari 15
+            </div>
+            <div class="stat-pill" style="background:#dbeafe; border-color:#93c5fd; color:#1e3a8a;">
+              <i class="fa-solid fa-stopwatch"></i> <span id="quizTimer">00:00</span>
+            </div>
+            <div class="stat-pill">
+              <i class="fa-solid fa-check-circle"></i> Skor Sementara: <span id="quizLiveScore">0</span>
+            </div>
+          </div>
+
+          <div id="questionText" style="font-size:1.15rem; font-weight:700; line-height:1.55; margin-bottom:14px;"></div>
+          <div class="option-list" id="optionList"></div>
+          <div id="quizFeedback" class="feedback-banner"></div>
+
+          <div style="margin-top:22px; display:flex; justify-content:flex-end;">
+            <button class="btn btn-primary" id="btnNextQuestion" style="display:none;" onclick="nextQuestion()">
+              Soal Berikutnya <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         7. HALAMAN HASIL, BADGE & REFLEKSI DIRI (AYO MENGENAL DIRI)
+         ======================================================================== -->
+    <section id="view-hasil" class="section-view">
+      <div class="card">
+        <div class="section-header">
+          <div class="section-icon" style="background:var(--success-bg); color:var(--success);"><i class="fa-solid fa-medal"></i></div>
+          <div>
+            <h2>Rapor Belajar &amp; Refleksi Anak Saleh</h2>
+            <p style="color:var(--text-muted);">Alhamdulillah! Mari lihat hasil belajarmu dan lakukan refleksi pembiasaan diri.</p>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-bottom:26px;">
+          <div style="background:var(--primary-light); padding:20px; border-radius:20px; text-align:center; border:2px solid var(--primary);">
+            <div style="font-size:0.9rem; font-weight:700; color:var(--primary-dark);">NILAI KUIS AKHIR</div>
+            <div id="finalQuizScore" style="font-size:2.6rem; font-weight:800; color:var(--primary-dark);">0</div>
+            <div id="finalQuizDetail" style="font-size:0.85rem; font-weight:600;">Belum mengerjakan kuis</div>
+          </div>
+
+          <div style="background:var(--secondary-light); padding:20px; border-radius:20px; text-align:center; border:2px solid var(--secondary);">
+            <div style="font-size:0.9rem; font-weight:700; color:#92400e;">TOTAL POIN KEAKTIFAN</div>
+            <div id="finalTotalPoints" style="font-size:2.6rem; font-weight:800; color:#92400e;">0</div>
+            <div style="font-size:0.85rem; font-weight:600;">Dari materi, game &amp; kuis</div>
+          </div>
+
+          <div style="background:#eff6ff; padding:20px; border-radius:20px; text-align:center; border:2px solid var(--accent);">
+            <div style="font-size:0.9rem; font-weight:700; color:#1e3a8a;">LENCANA PRESTASI</div>
+            <div id="finalBadgeIcon" style="font-size:2.2rem; margin:4px 0;">🌟</div>
+            <div id="finalBadgeTitle" style="font-size:1rem; font-weight:800; color:#1e3a8a;">Penjelajah Ilmu</div>
+          </div>
+        </div>
+
+        <!-- Lembar Refleksi Buku Paket Halaman 72: Ayo Mengenal Diri -->
+        <h3 style="color:var(--primary-dark); margin-bottom:10px;"><i class="fa-solid fa-heart-circle-check"></i> Ayo Mengenal Diri (Refleksi Sikap)</h3>
+        <p style="font-size:0.95rem; color:var(--text-muted); margin-bottom:12px;">
+          Berilah tanda centang/sentuh pada kolom yang sesuai dengan kebiasaanmu sehari-hari:
+        </p>
+
+        <div style="overflow-x:auto;">
+          <table class="reflection-table">
+            <thead>
+              <tr style="background:#f1f5f9;">
+                <th>No &amp; Pernyataan Sikap</th>
+                <th>Sangat Setuju</th>
+                <th>Setuju</th>
+                <th>Kurang Setuju</th>
+                <th>Tidak Setuju</th>
+              </tr>
+            </thead>
+            <tbody id="reflectionBody"></tbody>
+          </table>
+        </div>
+
+        <div style="margin-top:20px; display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between;">
+          <button class="btn btn-primary" onclick="saveReflection()"><i class="fa-solid fa-floppy-disk"></i> Simpan Refleksi Diri</button>
+          <button class="btn btn-outline" onclick="resetAllProgress()"><i class="fa-solid fa-trash-can"></i> Reset Semua Progres</button>
+        </div>
+        <div id="reflectionFeedback" class="feedback-banner success"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- BOTTOM NAVIGATION BAR (RAMAH SENTUH FID & MOBILE) -->
+  <nav class="bottom-nav">
+    <button class="btn btn-outline btn-sm" onclick="navigateTo('cover')">
+      <i class="fa-solid fa-house"></i> <span>Cover</span>
+    </button>
+    <button class="btn btn-outline btn-sm" onclick="navigateTo('menu')">
+      <i class="fa-solid fa-sitemap"></i> <span>Peta Konsep</span>
+    </button>
+    <button class="btn btn-outline btn-sm" onclick="navigateTo('aktivitas')">
+      <i class="fa-solid fa-gamepad"></i> <span>Game</span>
+    </button>
+    <button class="btn btn-primary btn-sm" onclick="navigateTo('kuis')">
+      <i class="fa-solid fa-pen-to-square"></i> <span>Kuis 15 Soal</span>
+    </button>
+  </nav>
+
+  <script>
+    /* ==========================================================================
+       1. STATE MANAGEMENT & LOCALSTORAGE PERSISTENCE
+       ========================================================================== */
+    const STORAGE_KEY = 'mpi_pai_kls5_bab3_ripani_v1';
+
+    const defaultState = {
+      currentView: 'cover',
+      points: 0,
+      completedStages: {
+        apersepsi: false,
+        materiA: false,
+        materiB: false,
+        aktivitas: false,
+        kuis: false,
+        hasil: false
+      },
+      gamesCompleted: {
+        g1: false,
+        g2: false,
+        g3: false
+      },
+      quizBestScore: null,
+      quizCorrectCount: 0,
+      reflections: {}
+    };
+
+    let appState = loadState();
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          return { ...defaultState, ...JSON.parse(saved) };
+        }
+      } catch (e) {
+        console.warn('LocalStorage tidak tersedia:', e);
+      }
+      return JSON.parse(JSON.stringify(defaultState));
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      } catch (e) {
+        console.warn('Gagal menyimpan progres:', e);
+      }
+      updateHUD();
+    }
+
+    function addPoints(amount) {
+      appState.points += amount;
+      saveState();
+    }
+
+    function updateHUD() {
+      document.getElementById('hudPoints').textContent = `${appState.points} Poin`;
+
+      const stages = Object.values(appState.completedStages);
+      const doneCount = stages.filter(Boolean).length;
+      const pct = Math.round((doneCount / stages.length) * 100);
+
+      document.getElementById('hudProgressFill').style.width = `${pct}%`;
+      document.getElementById('hudProgressText').textContent = `${pct}%`;
+
+      // Update status kartu di Peta Konsep
+      Object.keys(appState.completedStages).forEach(key => {
+        const card = document.getElementById(`card-${key}`);
+        const tag = document.getElementById(`tag-${key}`);
+        if (card && tag && appState.completedStages[key]) {
+          card.classList.add('completed');
+          tag.innerHTML = '<i class="fa-solid fa-check"></i> Selesai';
+        }
+      });
+
+      // Update Halaman Hasil
+      document.getElementById('finalTotalPoints').textContent = appState.points;
+      if (appState.quizBestScore !== null) {
+        document.getElementById('finalQuizScore').textContent = appState.quizBestScore;
+        document.getElementById('finalQuizDetail').textContent = `Benar ${appState.quizCorrectCount} dari 15 Soal`;
+      }
+
+      // Lencana Gamifikasi
+      const badgeIcon = document.getElementById('finalBadgeIcon');
+      const badgeTitle = document.getElementById('finalBadgeTitle');
+      if (appState.quizBestScore >= 85 && appState.points >= 150) {
+        badgeIcon.textContent = '👑';
+        badgeTitle.textContent = 'Khalifah Teladan & Anak Saleh Utama';
+      } else if (appState.points >= 80) {
+        badgeIcon.textContent = '🏅';
+        badgeTitle.textContent = 'Duta Kerukunan Nusantara';
+      } else {
+        badgeIcon.textContent = '🌟';
+        badgeTitle.textContent = 'Penjelajah Ilmu Saleh';
+      }
+    }
+
+    /* ==========================================================================
+       2. NAVIGASI ANTAR HALAMAN
+       ========================================================================== */
+    function navigateTo(viewId) {
+      document.querySelectorAll('.section-view').forEach(sec => sec.classList.remove('active'));
+      const target = document.getElementById(`view-${viewId}`);
+      if (target) {
+        target.classList.add('active');
+        appState.currentView = viewId;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      if (viewId === 'hasil') {
+        appState.completedStages.hasil = true;
+      }
+      saveState();
+    }
+
+    function startLearning() {
+      if (appState.points === 0) addPoints(10);
+      navigateTo('menu');
+    }
+
+    function toggleTujuan() {
+      const box = document.getElementById('tujuanBox');
+      box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function completeStage(stageKey, nextView) {
+      if (!appState.completedStages[stageKey]) {
+        appState.completedStages[stageKey] = true;
+        addPoints(25);
+      }
+      navigateTo(nextView);
+    }
+
+    /* ==========================================================================
+       3. INTERAKSI APERSEPSI & MATERI INTI
+       ========================================================================== */
+    function jawabPemantik(no, pesan) {
+      const fb = document.getElementById('pemantikFeedback');
+      fb.innerHTML = `<i class="fa-solid fa-heart"></i> <strong>MasyaAllah, jawaban hebat!</strong> ${pesan} Sikap itulah yang membuat hidup terasa indah.`;
+      fb.classList.add('show');
+      if (!appState.completedStages.apersepsi) {
+        appState.completedStages.apersepsi = true;
+        addPoints(20);
+      }
+    }
+
+    function switchChunk(materi, index, btnEl) {
+      const parent = btnEl.closest('.card');
+      parent.querySelectorAll('.chunk-tab').forEach(t => t.classList.remove('active'));
+      btnEl.classList.add('active');
+
+      parent.querySelectorAll('.chunk-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById(`chunk-${materi}-${index}`).classList.add('active');
+    }
+
+    function cekCepat(materi, isCorrect, msg) {
+      const fb = document.getElementById(`cekFeedback${materi}`);
+      fb.className = `feedback-banner show ${isCorrect ? 'success' : 'error'}`;
+      fb.innerHTML = isCorrect
+        ? `<i class="fa-solid fa-circle-check"></i> ${msg}`
+        : `<i class="fa-solid fa-circle-info"></i> ${msg}`;
+      if (isCorrect) addPoints(10);
+    }
+
+    /* ==========================================================================
+       4. GAME EDUKASI (MISI 1: SORTIR, MISI 2: MATCHING, MISI 3: SANDI N=14)
+       ========================================================================== */
+    function switchGame(num) {
+      [1, 2, 3].forEach(i => {
+        document.getElementById(`game-panel-${i}`).style.display = i === num ? 'block' : 'none';
+        const btn = document.getElementById(`btnGame${i}`);
+        btn.className = i === num ? 'btn btn-primary' : 'btn btn-outline';
+      });
+    }
+
+    // --- GAME 1: DRAG & DROP + TAP SELECTION (FID FRIENDLY) ---
+    const sikapItems = [
+      { id: 's1', text: 'Mendengarkan teman saat berpendapat', type: 'karimah' },
+      { id: 's2', text: 'Mengejek logat bahasa teman', type: 'mazmumah' },
+      { id: 's3', text: 'Menjaga kelestarian tanaman sekolah', type: 'karimah' },
+      { id: 's4', text: 'Merasa pendapat sendiri paling benar', type: 'mazmumah' },
+      { id: 's5', text: 'Menolong teman tanpa membedakan suku', type: 'karimah' },
+      { id: 's6', text: 'Membuang sampah sembarangan di sungai', type: 'mazmumah' }
+    ];
+
+    let selectedCardId = null;
+    let sortedCount = 0;
+
+    function initGame1() {
+      sortedCount = 0;
+      selectedCardId = null;
+      const pool = document.getElementById('dragPool');
+      const zKarimah = document.getElementById('zone-karimah');
+      const zMazmumah = document.getElementById('zone-mazmumah');
+
+      pool.innerHTML = '';
+      zKarimah.querySelectorAll('.drag-item').forEach(el => el.remove());
+      zMazmumah.querySelectorAll('.drag-item').forEach(el => el.remove());
+      document.getElementById('game1Feedback').className = 'feedback-banner';
+
+      const shuffled = [...sikapItems].sort(() => Math.random() - 0.5);
+      shuffled.forEach(item => {
+        const el = document.createElement('div');
+        el.className = 'drag-item';
+        el.id = item.id;
+        el.draggable = true;
+        el.dataset.type = item.type;
+        el.innerHTML = `<i class="fa-solid fa-grip-vertical"></i> <span>${item.text}</span>`;
+
+        el.addEventListener('dragstart', e => {
+          e.dataTransfer.setData('text/plain', item.id);
+        });
+
+        // Mode Tap untuk Layar Sentuh FID / HP
+        el.addEventListener('click', e => {
+          e.stopPropagation();
+          if (el.parentElement.id !== 'dragPool') return;
+          document.querySelectorAll('.drag-item').forEach(c => c.classList.remove('selected'));
+          el.classList.add('selected');
+          selectedCardId = item.id;
+        });
+
+        pool.appendChild(el);
+      });
+    }
+
+    function allowDrop(e) {
+      e.preventDefault();
+    }
+
+    function dropCard(e, targetType) {
+      e.preventDefault();
+      const id = e.dataTransfer.getData('text/plain');
+      if (id) processSort(id, targetType);
+    }
+
+    function tapZone(targetType) {
+      if (selectedCardId) {
+        processSort(selectedCardId, targetType);
+      }
+    }
+
+    function processSort(cardId, targetType) {
+      const card = document.getElementById(cardId);
+      if (!card || card.parentElement.id !== 'dragPool') return;
+
+      const fb = document.getElementById('game1Feedback');
+      if (card.dataset.type === targetType) {
+        card.classList.remove('selected');
+        card.draggable = false;
+        card.style.borderColor = targetType === 'karimah' ? 'var(--success)' : 'var(--danger)';
+        document.getElementById(`zone-${targetType}`).appendChild(card);
+        selectedCardId = null;
+        sortedCount++;
+
+        fb.className = 'feedback-banner show success';
+        fb.innerHTML = `<i class="fa-solid fa-circle-check"></i> Tepat sekali! "${card.textContent.trim()}" termasuk ${targetType === 'karimah' ? 'Akhlakul Karimah (Terpuji)' : 'Akhlakul Mazmumah (Tercela)'}.`;
+
+        if (sortedCount === sikapItems.length && !appState.gamesCompleted.g1) {
+          appState.gamesCompleted.g1 = true;
+          addPoints(30);
+          fb.innerHTML += ' <strong>Selamat! Misi 1 Selesai (+30 Poin)!</strong>';
+        }
+      } else {
+        fb.className = 'feedback-banner show error';
+        fb.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Belum tepat! Coba pikirkan kembali: apakah perilaku "${card.textContent.trim()}" mendatangkan kebaikan atau kerugian?`;
+      }
+    }
+
+    // --- GAME 2: MATCHING PASANGAN ---
+    const matchPairs = [
+      { id: 'm1', left: 'QS. Al-Hujurat: 13', right: 'Diciptakan bersuku-suku agar saling mengenal' },
+      { id: 'm2', left: 'QS. Al-An\'am: 108', right: 'Larangan mencela sesembahan agama lain' },
+      { id: 'm3', left: 'QS. Asy-Syura: 38', right: 'Menyelesaikan masalah dengan musyawarah' },
+      { id: 'm4', left: 'QS. Al-Baqarah: 30', right: 'Manusia diangkat menjadi khalifah di bumi' }
+    ];
+
+    let selectedLeft = null;
+    let matchedTotal = 0;
+
+    function initGame2() {
+      selectedLeft = null;
+      matchedTotal = 0;
+      const leftCol = document.getElementById('matchLeftCol');
+      const rightCol = document.getElementById('matchRightCol');
+      leftCol.innerHTML = '';
+      rightCol.innerHTML = '';
+      document.getElementById('game2Feedback').className = 'feedback-banner';
+
+      const rightShuffled = [...matchPairs].sort(() => Math.random() - 0.5);
+
+      matchPairs.forEach(p => {
+        const btn = document.createElement('button');
+        btn.className = 'match-btn';
+        btn.dataset.id = p.id;
+        btn.innerHTML = `<i class="fa-solid fa-book-quran" style="color:var(--primary);"></i> ${p.left}`;
+        btn.onclick = () => {
+          leftCol.querySelectorAll('.match-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          selectedLeft = p.id;
+        };
+        leftCol.appendChild(btn);
+      });
+
+      rightShuffled.forEach(p => {
+        const btn = document.createElement('button');
+        btn.className = 'match-btn';
+        btn.dataset.id = p.id;
+        btn.textContent = p.right;
+        btn.onclick = () => {
+          const fb = document.getElementById('game2Feedback');
+          if (!selectedLeft) {
+            fb.className = 'feedback-banner show error';
+            fb.textContent = 'Sentuh dulu kartu ayat di kolom sebelah kiri!';
+            return;
+          }
+          if (selectedLeft === p.id) {
+            const leftBtn = leftCol.querySelector(`[data-id="${p.id}"]`);
+            leftBtn.classList.remove('active');
+            leftBtn.classList.add('matched');
+            btn.classList.add('matched');
+            selectedLeft = null;
+            matchedTotal++;
+
+            fb.className = 'feedback-banner show success';
+            fb.innerHTML = `<i class="fa-solid fa-check"></i> Cocok! Pasangan dalil dan artinya benar.`;
+
+            if (matchedTotal === matchPairs.length && !appState.gamesCompleted.g2) {
+              appState.gamesCompleted.g2 = true;
+              addPoints(30);
+              fb.innerHTML += ' <strong>Luar biasa! Misi 2 Tuntas (+30 Poin)!</strong>';
+            }
+          } else {
+            fb.className = 'feedback-banner show error';
+            fb.innerHTML = `<i class="fa-solid fa-rotate-left"></i> Belum cocok, coba pasangkan dengan arti yang sesuai!`;
+          }
+        };
+        rightCol.appendChild(btn);
+      });
+    }
+
+    // --- GAME 3: SANDI RAHASIA N=14 ---
+    function initGame3() {
+      const legend = document.getElementById('cipherLegend');
+      const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      legend.innerHTML = '';
+      for (let i = 0; i < alphabet.length; i++) {
+        const span = document.createElement('span');
+        span.className = 'cipher-key';
+        span.textContent = `${alphabet[i]}=${i + 1}`;
+        legend.appendChild(span);
+      }
+    }
+
+    function checkCipher() {
+      const val = document.getElementById('cipherAnswerInput').value.trim().toUpperCase().replace(/\s+/g, ' ');
+      const target = 'HIDUP INDAH DENGAN SALING MENGHARGAI';
+      const fb = document.getElementById('game3Feedback');
+
+      if (val === target) {
+        fb.className = 'feedback-banner show success';
+        fb.innerHTML = `<i class="fa-solid fa-unlock-keyhole"></i> <strong>Sandi Terpecahkan!</strong> "HIDUP INDAH DENGAN SALING MENGHARGAI".`;
+        if (!appState.gamesCompleted.g3) {
+          appState.gamesCompleted.g3 = true;
+          addPoints(30);
+          fb.innerHTML += ' (+30 Poin Bonus!)';
+        }
+      } else {
+        fb.className = 'feedback-banner show error';
+        fb.innerHTML = `<i class="fa-solid fa-circle-info"></i> Belum tepat. Periksa kembali angka 9-14-4-1-8 (I-N-D-A-H) dan kata berikutnya!`;
+      }
+    }
+
+    function hintCipher() {
+      document.getElementById('cipherAnswerInput').value = 'HIDUP INDAH DENGAN SALING ';
+      document.getElementById('cipherAnswerInput').focus();
+    }
+
+    /* ==========================================================================
+       5. KUIS AKHIR (15 SOAL PILIHAN GANDA TERACAK + TIMER)
+       ========================================================================== */
+    const questionBank = [
+      {
+        q: 'Sikap menerima, mengakui, dan menghormati orang lain yang memiliki perbedaan dengan diri kita disebut...',
+        options: ['Menghargai', 'Acuh tak acuh', 'Membanggakan diri', 'Memaksakan kehendak'],
+        answer: 0,
+        explain: 'Menghargai adalah sikap terbuka, menerima, dan menghormati orang lain meskipun berbeda dengan kita.'
+      },
+      {
+        q: 'Akhlak mulia yang mencerminkan seseorang beriman kepada Allah Swt. dan Rasul-Nya dinamakan...',
+        options: ['Akhlakul Karimah', 'Akhlakul Mazmumah', 'Akhlak Sayyiah', 'Akhlak Qabihah'],
+        answer: 0,
+        explain: 'Akhlakul Karimah berarti akhlak yang mulia/terpuji, sedangkan Akhlakul Mazmumah adalah akhlak tercela.'
+      },
+      {
+        q: 'Dalam QS. Al-Hujurat ayat 13, Allah Swt. menciptakan manusia berbangsa-bangsa dan bersuku-suku supaya saling...',
+        options: ['Mengenal (Lita\'arafu)', 'Bersaing kekayaan', 'Membanggakan suku', 'Menjauhi perbedaan'],
+        answer: 0,
+        explain: 'Lafaz "lita\'arafu" berarti agar kalian saling mengenal dan menjalin persaudaraan.'
+      },
+      {
+        q: 'Semboyan pemersatu bangsa Indonesia yang tertulis pada pita burung Garuda Pancasila adalah...',
+        options: ['Bhinneka Tunggal Ika', 'Tut Wuri Handayani', 'Ing Ngarsa Sung Tuladha', 'Habis Gelap Terbitlah Terang'],
+        answer: 0,
+        explain: 'Bhinneka Tunggal Ika berarti berbeda-beda tetapi tetap satu jua.'
+      },
+      {
+        q: 'Sikap yang tepat terhadap teman yang berbeda keyakinan di lingkungan masyarakat adalah...',
+        options: ['Terbuka, ramah, dan tidak mencela keyakinannya', 'Mengejek cara ibadahnya', 'Memaksanya mengikuti keyakinan kita', 'Tidak mau berteman dengannya'],
+        answer: 0,
+        explain: 'Sesuai QS. Al-An\'am: 108, umat Islam dilarang mencela keyakinan orang lain agar tercipta kedamaian.'
+      },
+      {
+        q: 'Apabila terjadi perbedaan pendapat saat diskusi kelompok di kelas, sebaiknya diselesaikan dengan cara...',
+        options: ['Bermusyawarah secara bijaksana', 'Bertengkar mempertahankan pendapat', 'Keluar dari kelompok diskusi', 'Membiarkan masalah berlarut-larut'],
+        answer: 0,
+        explain: 'QS. Asy-Syura ayat 38 memerintahkan umat Islam menyelesaikan urusan bersama melalui musyawarah.'
+      },
+      {
+        q: 'Perhatikan sikap berikut: (1) Mendengarkan saat teman berbicara, (2) Mengejek usulan teman, (3) Melaksanakan hasil musyawarah. Sikap menghargai pendapat ditunjukkan nomor...',
+        options: ['(1) dan (3)', '(1) dan (2)', '(2) dan (3)', 'Semua salah'],
+        answer: 0,
+        explain: 'Mendengarkan teman berbicara dan menaati hasil keputusan musyawarah adalah wujud menghargai pendapat.'
+      },
+      {
+        q: 'Makna manusia sebagai "khalifah" di bumi menurut QS. Al-Baqarah ayat 30 adalah...',
+        options: ['Pemimpin yang mengurus dan memakmurkan bumi', 'Penguasa yang bebas merusak alam', 'Makhluk yang hidup menyendiri', 'Penghuni bumi tanpa tanggung jawab'],
+        answer: 0,
+        explain: 'Khalifah adalah pemimpin yang mendapat amanah Allah Swt. untuk menjaga dan memakmurkan bumi.'
+      },
+      {
+        q: 'Semua tugas manusia sebagai khalifah di bumi kelak akan dimintai pertanggungjawabannya oleh...',
+        options: ['Allah Swt.', 'Ketua kelas', 'Tetangga rumah', 'Teman sebaya'],
+        answer: 0,
+        explain: 'Setiap pemimpin akan dimintai pertanggungjawaban atas amanahnya di hadapan Allah Swt.'
+      },
+      {
+        q: 'Salah satu tugas utama manusia sebagai khalifah terhadap lingkungan alam sekitar adalah...',
+        options: ['Menjaga kelestarian alam dan tidak merusaknya', 'Menebang pohon secara liar', 'Membuang limbah plastik ke sungai', 'Menangkap ikan dengan bahan peledak'],
+        answer: 0,
+        explain: 'Khalifah bertugas merawat bumi dan mencegah kerusakan alam (QS. Al-Qasas: 77).'
+      },
+      {
+        q: 'Berikut ini merupakan tugas manusia sebagai khalifah dalam menjaga akal dan pikiran, yaitu...',
+        options: ['Terus belajar sepanjang hayat untuk menambah ilmu', 'Malas membaca buku pelajaran', 'Menyontek saat ulangan harian', 'Menyerahkan semua tugas sekolah kepada orang tua'],
+        answer: 0,
+        explain: 'Menuntut ilmu sepanjang hayat adalah bentuk syukur atas nikmat akal pemberian Allah Swt.'
+      },
+      {
+        q: 'Dalam kisah musyawarah tawanan perang, sahabat yang tetap lapang dada meskipun usulnya tidak dipilih Rasulullah Saw. adalah...',
+        options: ['Umar bin Khattab dan Ali bin Abi Thalib', 'Abu Jahal dan Abu Lahab', 'Qarun dan Haman', 'Musailamah'],
+        answer: 0,
+        explain: 'Umar bin Khattab r.a. dan Ali bin Abi Thalib r.a. tetap menghormati keputusan Rasulullah Saw. yang memilih pendapat Abu Bakar r.a.'
+      },
+      {
+        q: 'Perintah Allah Swt. untuk berbuat baik kepada orang lain dan larangan berbuat kerusakan di bumi tercantum dalam...',
+        options: ['QS. Al-Qasas ayat 77', 'QS. Al-Kautsar ayat 1', 'QS. Al-Ikhlas ayat 2', 'QS. An-Nas ayat 3'],
+        answer: 0,
+        explain: 'QS. Al-Qasas/28: 77 mengajarkan berbuat ihsan (kebaikan) dan melarang berbuat kerusakan di muka bumi.'
+      },
+      {
+        q: 'Manfaat yang dirasakan apabila kita membiasakan sikap saling menghargai di sekolah adalah...',
+        options: ['Tercipta suasana belajar yang rukun dan damai', 'Sering terjadi perselisihan antar teman', 'Teman menjadi takut mendekat', 'Kelas menjadi gaduh dan terpecah'],
+        answer: 0,
+        explain: 'Saling menghargai menumbuhkan kerukunan, kedamaian, dan persatuan.'
+      },
+      {
+        q: 'Sebagai ketua kelompok diskusi, sikap amanah yang mencerminkan jiwa khalifah adalah...',
+        options: ['Adil membagi tugas dan menghargai semua anggota', 'Menyuruh anggota lain bekerja sendirian', 'Hanya berteman dengan yang sepaham', 'Marah jika ada anggota bertanya'],
+        answer: 0,
+        explain: 'Pemimpin yang amanah bersikap adil, bijaksana, dan mengayomi seluruh anggotanya.'
+      }
+    ];
+
+    let activeQuizQuestions = [];
+    let currentQIndex = 0;
+    let quizScoreCount = 0;
+    let quizTimerInterval = null;
+    let secondsElapsed = 0;
+
+    function startQuiz() {
+      // Acak urutan soal dan acak urutan opsi jawaban
+      activeQuizQuestions = questionBank
+        .map(q => {
+          const mappedOpts = q.options.map((opt, idx) => ({ text: opt, isCorrect: idx === q.answer }));
+          mappedOpts.sort(() => Math.random() - 0.5);
+          return {
+            q: q.q,
+            options: mappedOpts,
+            explain: q.explain
+          };
+        })
+        .sort(() => Math.random() - 0.5);
+
+      currentQIndex = 0;
+      quizScoreCount = 0;
+      secondsElapsed = 0;
+
+      document.getElementById('quizStartScreen').style.display = 'none';
+      document.getElementById('quizPlayScreen').style.display = 'block';
+      document.getElementById('quizLiveScore').textContent = '0';
+
+      clearInterval(quizTimerInterval);
+      quizTimerInterval = setInterval(() => {
+        secondsElapsed++;
+        const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+        const secs = String(secondsElapsed % 60).padStart(2, '0');
+        document.getElementById('quizTimer').textContent = `${mins}:${secs}`;
+      }, 1000);
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const item = activeQuizQuestions[currentQIndex];
+      document.getElementById('qNumber').textContent = currentQIndex + 1;
+      document.getElementById('questionText').textContent = `${currentQIndex + 1}. ${item.q}`;
+
+      const optList = document.getElementById('optionList');
+      optList.innerHTML = '';
+      const letters = ['A', 'B', 'C', 'D'];
+
+      item.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerHTML = `<span class="option-letter">${letters[idx]}</span> <span>${opt.text}</span>`;
+        btn.onclick = () => handleQuizAnswer(btn, opt.isCorrect, item.explain);
+        optList.appendChild(btn);
+      });
+
+      document.getElementById('quizFeedback').className = 'feedback-banner';
+      document.getElementById('btnNextQuestion').style.display = 'none';
+    }
+
+    function handleQuizAnswer(selectedBtn, isCorrect, explanation) {
+      const allBtns = document.querySelectorAll('.option-btn');
+      allBtns.forEach(b => (b.disabled = true));
+
+      const fb = document.getElementById('quizFeedback');
+      if (isCorrect) {
+        selectedBtn.classList.add('correct');
+        quizScoreCount++;
+        document.getElementById('quizLiveScore').textContent = Math.round((quizScoreCount / 15) * 100);
+        fb.className = 'feedback-banner show success';
+        fb.innerHTML = `<i class="fa-solid fa-circle-check"></i> <strong>Jawaban Benar!</strong> ${explanation}`;
+      } else {
+        selectedBtn.classList.add('wrong');
+        // Sorot jawaban yang benar sebagai umpan balik edukatif
+        activeQuizQuestions[currentQIndex].options.forEach((opt, idx) => {
+          if (opt.isCorrect) allBtns[idx].classList.add('correct');
+        });
+        fb.className = 'feedback-banner show error';
+        fb.innerHTML = `<i class="fa-solid fa-lightbulb"></i> <strong>Mari Belajar Bersama:</strong> ${explanation}`;
+      }
+
+      const nextBtn = document.getElementById('btnNextQuestion');
+      nextBtn.style.display = 'inline-flex';
+      nextBtn.innerHTML =
+        currentQIndex < 14
+          ? 'Soal Berikutnya <i class="fa-solid fa-arrow-right"></i>'
+          : 'Lihat Hasil Akhir <i class="fa-solid fa-trophy"></i>';
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < 15) {
+        renderQuestion();
+      } else {
+        clearInterval(quizTimerInterval);
+        const finalScore = Math.round((quizScoreCount / 15) * 100);
+        appState.quizBestScore = Math.max(appState.quizBestScore || 0, finalScore);
+        appState.quizCorrectCount = quizScoreCount;
+        appState.completedStages.kuis = true;
+        addPoints(quizScoreCount * 5);
+
+        document.getElementById('quizStartScreen').style.display = 'block';
+        document.getElementById('quizPlayScreen').style.display = 'none';
+        navigateTo('hasil');
+      }
+    }
+
+    /* ==========================================================================
+       6. LEMBAR REFLEKSI DIRI (AYO MENGENAL DIRI - HAL. 72)
+       ========================================================================== */
+    const reflectionItems = [
+      'Saya senang memiliki banyak teman dari berbagai suku dan daerah',
+      'Saya mendengarkan pendapat teman dengan baik saat berdiskusi',
+      'Saya mengikuti hasil keputusan musyawarah bersama',
+      'Saya mengucapkan selamat kepada teman yang berprestasi',
+      'Saya menjaga amanah dan tugas yang diberikan guru/orang tua',
+      'Saya menjaga kebersihan dan kelestarian lingkungan sekitar'
+    ];
+
+    function initReflectionTable() {
+      const tbody = document.getElementById('reflectionBody');
+      tbody.innerHTML = '';
+      reflectionItems.forEach((text, idx) => {
+        const tr = document.createElement('tr');
+        const savedVal = appState.reflections[idx] || '';
+        tr.innerHTML = `
+          <td>${idx + 1}. ${text}</td>
+          <td><input type="radio" name="ref_${idx}" value="SS" class="radio-touch" ${savedVal === 'SS' ? 'checked' : ''}></td>
+          <td><input type="radio" name="ref_${idx}" value="S" class="radio-touch" ${savedVal === 'S' ? 'checked' : ''}></td>
+          <td><input type="radio" name="ref_${idx}" value="KS" class="radio-touch" ${savedVal === 'KS' ? 'checked' : ''}></td>
+          <td><input type="radio" name="ref_${idx}" value="TS" class="radio-touch" ${savedVal === 'TS' ? 'checked' : ''}></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function saveReflection() {
+      let filled = 0;
+      reflectionItems.forEach((_, idx) => {
+        const checked = document.querySelector(`input[name="ref_${idx}"]:checked`);
+        if (checked) {
+          appState.reflections[idx] = checked.value;
+          filled++;
+        }
+      });
+      const fb = document.getElementById('reflectionFeedback');
+      if (filled < reflectionItems.length) {
+        fb.className = 'feedback-banner show error';
+        fb.innerHTML = `<i class="fa-solid fa-circle-info"></i> Lengkapi semua 6 pernyataan sikap terlebih dahulu ya!`;
+      } else {
+        addPoints(20);
+        fb.className = 'feedback-banner show success';
+        fb.innerHTML = `<i class="fa-solid fa-heart"></i> <strong>Alhamdulillah!</strong> Refleksi dirimu telah tersimpan. Terus biasakan akhlak anak saleh setiap hari!`;
+      }
+    }
+
+    function resetAllProgress() {
+      localStorage.removeItem(STORAGE_KEY);
+      appState = JSON.parse(JSON.stringify(defaultState));
+      document.querySelectorAll('.menu-card').forEach(c => c.classList.remove('completed'));
+      initGame1();
+      initGame2();
+      initReflectionTable();
+      updateHUD();
+      navigateTo('cover');
+    }
+
+    /* ==========================================================================
+       7. INISIALISASI SAAT HALAMAN DIMUAT
+       ========================================================================== */
+    window.addEventListener('DOMContentLoaded', () => {
+      initGame1();
+      initGame2();
+      initGame3();
+      initReflectionTable();
+      updateHUD();
+    });
+  </script>
+</body>
+</html>
